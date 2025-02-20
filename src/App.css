@@ -1,0 +1,28 @@
+#root {
+  max-width: 640px;
+  /* margin: 0 auto; */
+  /* padding: 1rem; */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  margin-top: 10px;
+}
+
+.network-status {
+  position: fixed;
+  top: -100px; /* Start off-screen */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  transition: top 1s ease-in-out;
+  z-index: 1000; /* Ensure it's on top of other elements */
+  font-size: 0.5em;
+}
+
+.network-status.show {
+  top: 20px; /* Slide down */
+}
