@@ -1,4 +1,5 @@
 import { Scene } from "phaser";
+import { Card } from "../Card";
 
 export class MainMenu extends Scene {
   constructor() {
@@ -6,19 +7,7 @@ export class MainMenu extends Scene {
   }
 
   create() {
-    const image = this.add.image(512, 300, "logo");
-image.displayHeight = 375
-image.displayWidth = 275
-    const x = this.add
-      .text(512, 460, "Main Menu", {
-        fontFamily: "Arial Black",
-        fontSize: 38,
-        color: "#ffffff",
-        stroke: "#000000",
-        strokeThickness: 8,
-        align: "center",
-      })
-      .setOrigin(0.5);
+    const card = new Card(this, "https://images.pokemontcg.io/sv4pt5/40_hires.png")
 
     this.input.on("wheel", (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
       var keyObject = this.input.keyboard.addKey("CTRL"); // Get key object
@@ -47,7 +36,6 @@ image.displayWidth = 275
 
     this.input.on("pointermove", (pointer) => {
       var amount = this.input.manager.pointersTotal;
-      x.setText(amount)
       
       if (amount > 1 && this.input.pointer1.isDown && !this.input.pointer2.isDown ) {
         // this.cameras.main.worldView.x += pointer.position.x - pointer.prevPosition.x;
@@ -73,9 +61,9 @@ image.displayWidth = 275
         return
       }
 
-      if ((pointer.isDown && pointer.button === 1)) {
-        this.cameras.main.x += pointer.position.x - pointer.prevPosition.x;
-        this.cameras.main.y += pointer.position.y - pointer.prevPosition.y;
+      if ((pointer.isDown && pointer.button === 0)) {
+        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
       }
     });
   }
