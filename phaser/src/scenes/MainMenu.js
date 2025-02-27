@@ -12,7 +12,7 @@ export class MainMenu extends Scene {
     this.add.image(796/2, 1280/2, 'playmat')
     this.cameras.main.zoomTo(1.1, 1000, Phaser.Math.Easing.Bounce.Out)
 
-    const card = new Card(this, "sv4pt5-40", "https://images.pokemontcg.io/sv4pt5/40_hires.png", 100, 120)
+    const card = new Card(this, "c1", "sv4pt5-40", "https://images.pokemontcg.io/sv4pt5/40_hires.png", 100, 120)
 
     this.input.on("wheel", (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
       var keyObject = this.input.keyboard.addKey("CTRL"); // Get key object
@@ -100,4 +100,5 @@ export class MainMenu extends Scene {
 
     
   }
+
 }
