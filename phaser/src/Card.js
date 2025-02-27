@@ -10,8 +10,12 @@ export class Card extends Phaser.GameObjects.Sprite {
         super(scene, x, y)
         var name = id;
         // texture needs to be loaded to create a placeholder card
- this.x = x
+        this.x = x
         this.y = y
+        this.setDataEnabled()
+
+        this.data.set('isSelected', null)
+
         const ratio = 325/225
         
         this.displayWidth = preferredWidth || 90
@@ -54,5 +58,23 @@ export class Card extends Phaser.GameObjects.Sprite {
             this.displayHeight = this.displayWidth * ratio
         });
         loader.start();
+
+        this.on('changedata', (p,e,v) => {
+            if(e === 'isSelected') {
+                if(v === true)
+                this.y -=100
+            else {
+                this.y +=100
+                }
+            }
+        })
+    }
+
+    selectFromHand() {
+        this.data.set('isSelected', true)
+    }
+
+    unselectFromHand() {
+        this.data.set('isSelected', false)
     }
 }

@@ -98,6 +98,6 @@ export class MainMenu extends Scene {
     });
 
 
-    this.registry.events.on('changedata', (A) => console.log(A))
+    
   }
 }
