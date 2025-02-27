@@ -1,0 +1,5 @@
+const WIDTH = 800
+const HEIGHT = 1500
+const HAND_HEIGHT = 130
+
+export {WIDTH, HEIGHT, HAND_HEIGHT}

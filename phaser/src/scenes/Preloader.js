@@ -30,7 +30,19 @@ export class Preloader extends Scene
     {
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
-        this.load.image('logo', 'https://images.pokemontcg.io/sv4pt5/1_hires.png');
+        // this.load.image('placeholder', 'https://images.pokemontcg.io/sv4pt5/1_hires.png');
+        this.load.image('playmat', './playmat.png');
+
+        let loader = new Phaser.Loader.LoaderPlugin(this);
+        // ask the LoaderPlugin to load the texture
+        loader.image('placeholder',  'https://images.pokemontcg.io/sv4pt5/1_hires.png');
+
+        loader.once(Phaser.Loader.Events.COMPLETE, () => {
+            // texture loaded so use instead of the placeholder
+            // this.image.displayHeight = 120
+            // this.image.displayWidth = 90            
+        });
+        loader.start();
     }
 
     create ()
