@@ -14,32 +14,10 @@ export class Hand extends Scene {
 
 
     const cards = [
-      {
-        id: "sv4pt5-232",
-        url: "https://images.pokemontcg.io/sv4pt5/232_hires.png",
-      },
-      {
-        id: "sv4pt5-94",
-        url: "https://images.pokemontcg.io/sv4pt5/94_hires.png",
-      },
-      {
-        id: "sv4pt5-96",
-        url: "https://images.pokemontcg.io/sv4pt5/96_hires.png",
-      },
-      {
-        id: "sv4pt5-102",
-        url: "https://images.pokemontcg.io/sv4pt5/102_hires.png",
-      },
-      {
-        id: "sv4pt5-142",
-        url: "https://images.pokemontcg.io/sv4pt5/142_hires.png",
-      },
-      {
-        id: "sv4pt5-157",
-        url: "https://images.pokemontcg.io/sv4pt5/157_hires.png",
-      },
+
+      
     ].map((card, index) => {
-      const cardInstance = new Card(this, index, card.id, card.url, 0, 1500 - 100, 250);
+      const cardInstance = new Card(this, index, card.id, card.url, 0, 1500 - 100, "hand", 250);
       cardInstance.setX((cardInstance.displayWidth + 5) * (index + 1));
       cardInstance.setY(HEIGHT - 10);
       handWidth = ((cardInstance.displayWidth + 5) * (index + 1) - 400)

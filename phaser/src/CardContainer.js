@@ -1,7 +1,6 @@
 import Phaser, { Scene } from "phaser";
-import { HAND_HEIGHT, HEIGHT, WIDTH } from "./config";
 
-export class Card extends Phaser.GameObjects.Sprite {
+export class Card extends Phaser.GameObjects.Container {
   /**
    * @param {Phaser.Scene} scene
    * @param {{url: string, name: string}} data

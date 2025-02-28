@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import setupGameState from './setupGameState';
 
 export class Preloader extends Scene
 {
@@ -24,6 +25,8 @@ export class Preloader extends Scene
             bar.width = 4 + (460 * progress);
 
         });
+
+        setupGameState(this)
     }
 
     preload ()
@@ -32,17 +35,6 @@ export class Preloader extends Scene
         this.load.setPath('assets');
         // this.load.image('placeholder', 'https://images.pokemontcg.io/sv4pt5/1_hires.png');
         this.load.image('playmat', './playmat.png');
-
-        let loader = new Phaser.Loader.LoaderPlugin(this);
-        // ask the LoaderPlugin to load the texture
-        loader.image('placeholder',  'https://images.pokemontcg.io/sv4pt5/1_hires.png');
-
-        loader.once(Phaser.Loader.Events.COMPLETE, () => {
-            // texture loaded so use instead of the placeholder
-            // this.image.displayHeight = 120
-            // this.image.displayWidth = 90            
-        });
-        loader.start();
     }
 
     create ()
