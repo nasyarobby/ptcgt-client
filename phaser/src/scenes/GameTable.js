@@ -4,7 +4,7 @@ import { HAND_HEIGHT, HEIGHT } from "../config";
 
 export class GameTable extends Scene {
   constructor() {
-    super("MainMenu");
+    super("GameTable");
   }
 
   create() {

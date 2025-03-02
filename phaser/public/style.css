@@ -13,3 +13,22 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.deck-manager-container {
+    padding: 100px
+}
+
+.deck-manager-container input, .deck-manager-container textarea, .deck-manager-container button {
+    font-size: 24px;
+}
+
+.deck-result {
+    position: absolute;
+    color: #000000;
+    top: 50%;
+    left: 30;
+    width: 600px;
+    background-color: #00ff00;
+    font-size: 25px;
+    text-align: center;
+}

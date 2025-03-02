@@ -4,18 +4,13 @@ import { HAND_HEIGHT, HEIGHT, WIDTH } from "../config";
 
 export class Hand extends Scene {
   constructor() {
-    super({ key: "Game", active: true });
+    super({ key: "Game" });
   }
 
   create() {
-
     this.add.rectangle(WIDTH/2,HEIGHT-HAND_HEIGHT/2, WIDTH, HAND_HEIGHT, 0xFFFFFF)
     let handWidth = 0
-
-
     const cards = [
-
-      
     ].map((card, index) => {
       const cardInstance = new Card(this, index, card.id, card.url, 0, 1500 - 100, "hand", 250);
       cardInstance.setX((cardInstance.displayWidth + 5) * (index + 1));
