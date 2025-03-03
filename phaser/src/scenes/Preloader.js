@@ -35,6 +35,8 @@ export class Preloader extends Scene
         this.load.setPath('assets');
         // this.load.image('placeholder', 'https://images.pokemontcg.io/sv4pt5/1_hires.png');
         this.load.image('playmat', './playmat.png');
+        this.load.image('activate_deck_button_0', './activate_deck_button_0.png');
+        this.load.image('activate_deck_button_2', './activate_deck_button_2.png');
     }
 
     create ()

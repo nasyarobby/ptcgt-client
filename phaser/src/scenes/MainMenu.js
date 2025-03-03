@@ -8,26 +8,39 @@ export class MainMenu extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(796/2, 1280/2, 'playmat').setDepth(-100).preFX.addBlur(0, 0.2, 0.2, 30)
+    this.scene.start("Background")
 
     if(ws.token) {
-        this.scene.start('DeckManager');
+        this.scene.switch('DeckManager');
     }
 
-    var div = document.createElement('div');
-    div.style = 'background-color: rgba(0,255,0,0.2); display: flex';
+    var mainMenu = document.createElement('div');
+    mainMenu.style = 'background-color: rgba(0,0,0,0.7); height: 100%; width: 100%;';
+
+    const container = document.createElement('div')
+    container.style = 'display: flex; flex-direction: column;'
+    container.className = 'deck-manager-container'
+
+    ws.parsers.push(({
+      cmd: 's_ok_auth',
+      parser: (data,cmd) => {
+        this.scene.switch("DeckManager")
+      }
+    }))
+
     const input = document.createElement('input')
-    input.style = 'font-size: 25px;'
+    input.style = 'font-size: 32px;text-align:center'
     const button = document.createElement('button')
-    button.style = 'font-size: 25px;'
+    button.style = 'font-size: 32px;'
     button.innerText = 'Login'
     button.onclick = () => {
         ws.sendCmd('auth', {name: input.value})
     }
-    div.appendChild(input)
-    div.appendChild(button)
+    mainMenu.appendChild(container)
+    container.appendChild(input)
+    container.appendChild(button)
 
-    const dom = this.add.dom(WIDTH/2,HEIGHT/2, div)
+    const dom = this.add.dom(WIDTH/2,HEIGHT/2, mainMenu)
     
   }
 

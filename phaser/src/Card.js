@@ -36,7 +36,7 @@ export class Card extends Phaser.GameObjects.Sprite {
     let loader = new Phaser.Loader.LoaderPlugin(scene);
     // ask the LoaderPlugin to load the texture
     console.log(data.id)
-    loader.image(data.id, data.imageL);
+    loader.image(data.id, data.images.large);
     this.shadowCard = null;
 
     loader.once(Phaser.Loader.Events.COMPLETE, () => {
@@ -50,24 +50,24 @@ export class Card extends Phaser.GameObjects.Sprite {
         .setScale(this.scale)
         .setVisible(false);
 
-      scene.add
-        .rectangle(
-          this.x,
-          this.y,
-          this.displayWidth + HIGHLIGHT_PADDING,
-          this.displayHeight + HIGHLIGHT_PADDING,
-          0xff0000
-        )
-        .setDepth(-5);
-      scene.add.line(
-        this.x,
-        this.y,
-        0,
-        0,
-        this.displayWidth,
-        this.displayHeight,
-        0xff0000
-      );
+      // scene.add
+      //   .rectangle(
+      //     this.x,
+      //     this.y,
+      //     this.displayWidth + HIGHLIGHT_PADDING,
+      //     this.displayHeight + HIGHLIGHT_PADDING,
+      //     0xff0000
+      //   )
+        // .setDepth(-5);
+      // scene.add.line(
+      //   this.x,
+      //   this.y,
+      //   0,
+      //   0,
+      //   this.displayWidth,
+      //   this.displayHeight,
+      //   0xff0000
+      // );
     });
     loader.start();
 
@@ -95,8 +95,10 @@ export class Card extends Phaser.GameObjects.Sprite {
       .on(
         "pointermove",
         (pointer, x,y) => {
+          if(this.location === 'table') {
             this.setX(pointer.worldX)
             this.setY(pointer.worldY)
+            }
         }
       );
   }

@@ -6,6 +6,7 @@ import { GameTable } from "./scenes/GameTable";
 import { Preloader } from "./scenes/Preloader";
 import { HEIGHT, WIDTH } from "./config";
 import { MainMenu } from "./scenes/MainMenu";
+import { Background } from "./scenes/Background";
 import './index.css'
 import { DeckManager } from "./scenes/DeckManager";
 
@@ -28,7 +29,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [Boot, Preloader, MainMenu, DeckManager, GameTable, Hand, GameOver],
+  scene: [Boot, Preloader, Background, MainMenu, DeckManager, GameTable, Hand, GameOver],
 };
 
 export default new Phaser.Game(config);
