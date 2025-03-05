@@ -37,6 +37,8 @@ export class Preloader extends Scene
         this.load.image('playmat', './playmat.png');
         this.load.image('activate_deck_button_0', './activate_deck_button_0.png');
         this.load.image('activate_deck_button_2', './activate_deck_button_2.png');
+        this.load.image('deck', './deck.png');
+        this.load.image('button_180x62', './button_180x62.png');
     }
 
     create ()

@@ -13,29 +13,32 @@ export class DeckManager extends Phaser.Scene {
     ws.sendCmd("get_decks", {});
 
     const group = this.add.group()
-
     const PADDING = 40;
-
-    var deckImport = document.createElement("div");
-    deckImport.style =
+    var overlayBackdrop = document.createElement("div");
+    overlayBackdrop.style =
       "background-color: rgba(0,0,0,0.7); height: 100%; width: 100%;";
 
     const container = document.createElement("div");
     const resultContainer = document.createElement("div");
-    resultContainer.textContent = "Test";
+    resultContainer.textContent = "Creating deck...";
     resultContainer.className = "deck-result";
-
+    resultContainer.style.visibility = 'hidden'
     container.style = "display: flex; flex-direction: column;";
     container.className = "deck-manager-container";
-    deckImport.appendChild(container);
+    overlayBackdrop.appendChild(container);
 
     const deckNameInput = document.createElement("input");
     const textarea = document.createElement("textarea");
     textarea.setAttribute("rows", "20");
-    const button = document.createElement("button");
-    button.style = "font-size: 25px;";
-    button.innerText = "Save";
-    button.onclick = () => {
+    const saveDeckButton = document.createElement("button");
+    saveDeckButton.style = "font-size: 25px;";
+    saveDeckButton.innerText = "Save";
+    saveDeckButton.onclick = () => {
+      resultContainer.className = 'deck-result'
+      resultContainer.style.visibility = 'visible'
+      deckNameInput.style.visibility = 'hidden'
+      saveDeckButton.style.visibility = 'hidden'
+      textarea.style.visibility = 'hidden'
       ws.sendCmd("save_deck", {
         deckName: deckNameInput.value,
         deck: textarea.value,
@@ -43,21 +46,24 @@ export class DeckManager extends Phaser.Scene {
     };
     container.appendChild(deckNameInput);
     container.appendChild(textarea);
-    container.appendChild(button);
+    container.appendChild(saveDeckButton);
     container.appendChild(resultContainer);
-    const dom = this.add.dom(0, 0, deckImport).setOrigin(0, 0);
+    const dom = this.add.dom(0, 0, overlayBackdrop).setOrigin(0, 0);
     dom.setVisible(false);
 
-    const buttonImport = this.add
-      .rectangle(0, 0, 200, 80, 0x00ff00)
-      .setDepth(10);
+    const importButton = this.add.image(20, 20, "button_180x62").setOrigin(0,0)
+    this.add.text(importButton.x+56, importButton.y+20, "Import", {
+      color: "black",
+      fontSize: "24px",
+      "font-weight": "bold",
+      fontFamily: "Arial",
+    })
 
-    const textButtonImport = this.add
-      .text(0, 0, "Import", { color: "black" })
-      .setDepth(50);
-    buttonImport.setInteractive().on("pointerdown", () => {
+    importButton.setInteractive().on("pointerdown", () => {
+      if(dom.visible) return;
       dom.setVisible(!dom.visible);
     });
+
 
     ws.parsers.push({
       cmd: "s_card_found",
@@ -70,7 +76,10 @@ export class DeckManager extends Phaser.Scene {
       cmd: "s_ok_save_deck",
       parser: (data) => {
       dom.setVisible(false);
-
+      resultContainer.style.visibility = 'hidden'
+      deckNameInput.style.visibility = 'visible'
+      saveDeckButton.style.visibility = 'visible'
+      textarea.style.visibility = 'visible'
         ws.sendCmd("get_decks", {})
       }
     })
@@ -78,29 +87,49 @@ export class DeckManager extends Phaser.Scene {
     ws.parsers.push({
       cmd: "s_ok_get_decks",
       parser: (data) => {
-        group.clear();
+        group.clear(true);
         data.decks.forEach((row, index) => {
           const rect = this.add
-            .rectangle(PADDING, PADDING+40+(index*250), WIDTH - PADDING * 2, 240, 0xffffff)
-            .setAlpha(0.6)
-            .setOrigin(0, 0);
-          const text = this.add.text(rect.x + 180, rect.y+20, row.name, {
-            color: "black",
-            fontSize: "24px",
-            "font-weight": "bold",
-            fontFamily: "Sans Serif",
-          });
+          .rectangle(PADDING, PADDING+60+(index*250), WIDTH - PADDING * 2, 210, 0xffffff)
+          .setAlpha(0.6)
+          .setOrigin(0, 0);
 
-          const card = new Card(this, row.data.deck[0].no,  row.data.cards[row.data.deck[0].id], rect.x+10, rect.y+10, 'dm', 150).setOrigin(0,0)
-          const button = this.add
-            .image(rect.x+180, rect.y+100, 'activate_deck_button_0')
-            .setOrigin(0, 0);
+          group.add(this.add.image(rect.x+170,rect.y+130, "deck"))
+          const card = new Card(this, row.data.deck[0].no,  row.data.cards[row.data.deck[0].id], rect.x+20, rect.y+20, 'dm', 120).setOrigin(0,0)
 
-            const button2 = this.add
-            .rectangle(rect.x+350, rect.y+100, 160, 50,0xffffff)
-            .setOrigin(0, 0);
+
+        const text = this.add.text(rect.x + 250, rect.y+20, row.name, {
+          color: "black",
+          fontSize: "32px",
+          "font-weight": "bold",
+          fontFamily: "Arial",
+        });
+        const button = this.add
+        .image(rect.x+250, rect.y+120, 'button_180x62')
+        .setOrigin(0, 0);
+
+        const delButton = this.add
+        .image(rect.x+440, rect.y+120, 'button_180x62')
+        .setOrigin(0, 0);
+
+        const buttonText = this.add.text(rect.x + 298, rect.y+136, "Activate", {
+          color: "black",
+          fontSize: "24px",
+          "font-weight": "bold",
+          fontFamily: "Arial",
+        });
+        const delButtonText = this.add.text(rect.x + 484, rect.y+136, "Remove", {
+          color: "#ff7780",
+          fontSize: "24px",
+          "font-weight": "bold",
+          fontFamily: "Arial",
+        });
+          
           group.add(button)
-          group.add(button2)
+          group.add(buttonText)
+          group.add(delButton)
+          group.add(delButtonText)
+
           group.add(rect)
           group.add(text)
           group.add(card)
@@ -119,7 +148,7 @@ export class DeckManager extends Phaser.Scene {
         if(this.isDragStart)
         {
           const distance = pointer.position.y - pointer.prevPosition.y
-          const maxScrollY = (((group.countActive()/3)-3)*250)
+          const maxScrollY = (((group.countActive()/8)-3)*250)
           if(distance < 0 && this.cameras.main.scrollY - distance > maxScrollY) {
             return;
           }
