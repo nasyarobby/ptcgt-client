@@ -15,7 +15,6 @@ export class MainMenu extends Phaser.Scene {
     const magenta = this.add.image(0,0,'magenta_up').setOrigin(0,1)
     const blueBdrop = this.add.image(0,HEIGHT,'blue_down').setOrigin(0,0)
 
- 
     if(activeDeck) {
       ws.sendCmd('get_deck_by_name', {deckName: activeDeck})
 
@@ -37,6 +36,7 @@ export class MainMenu extends Phaser.Scene {
       const newGameButtonText = this.add.text(newGameButton.x-60, newGameButton.y-12, "New Game", {color: "black", fontSize: "24px", fontFamily: "Arial"})
 
       setClickAction(this, newGameButton, newGameButtonText, () => {
+        ws.sendCmd('create_game', {deckName: activeDeck})
         this.tweens.add({
           targets: magenta,
           y: HEIGHT/2+200,
