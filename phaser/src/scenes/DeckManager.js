@@ -1,7 +1,8 @@
 import Phaser from "phaser";
-import { HEIGHT, WIDTH } from "../config";
+import { WIDTH } from "../config";
 import ws from "../socket";
 import { Card } from "../Card";
+import setClickAction from "./setClickAction";
 
 export class DeckManager extends Phaser.Scene {
   constructor() {
@@ -11,6 +12,26 @@ export class DeckManager extends Phaser.Scene {
   create() {
     // this.add.image(796/2, 1280/2, 'playmat').setDepth(-100).preFX.addBlur(0, 0.2, 0.2, 30)
     ws.sendCmd("get_decks", {});
+
+    this.input.on('pointerup', () => {
+      if(this.clicked) {
+        this.clickedText.x = this.originalTextPosition.x
+        this.clickedText.y = this.originalTextPosition.y
+      }
+    })
+
+    const backToMenuButton = this.add.image(300,51, "button_180x62")
+    const backToMenuButtonText = this.add.text(backToMenuButton.x-26, backToMenuButton.y-12, "Back", {color: "black", fontSize: "24px", fontFamily: "Arial"})
+    setClickAction(this, backToMenuButton, backToMenuButtonText, () => {
+      this.scene.switch('MainMenu')
+    })
+
+    this.input.on('pointerup', () => {
+      if(this.clicked) {
+        this.clickedText.x = this.originalTextPosition.x
+        this.clickedText.y = this.originalTextPosition.y
+      }
+    })
 
     const group = this.add.group()
     const PADDING = 40;
@@ -104,20 +125,28 @@ export class DeckManager extends Phaser.Scene {
           "font-weight": "bold",
           fontFamily: "Arial",
         });
-        const button = this.add
+        const activateButton = this.add
         .image(rect.x+250, rect.y+120, 'button_180x62')
         .setOrigin(0, 0);
 
-        const delButton = this.add
-        .image(rect.x+440, rect.y+120, 'button_180x62')
-        .setOrigin(0, 0);
-
-        const buttonText = this.add.text(rect.x + 298, rect.y+136, "Activate", {
+        const activateText = this.add.text(rect.x + 298, rect.y+136, "Activate", {
           color: "black",
           fontSize: "24px",
           "font-weight": "bold",
           fontFamily: "Arial",
         });
+
+        setClickAction(this, activateButton, activateText, () => {
+          console.log("activate", row.name, row)
+          localStorage.setItem('deck', row.name)
+        })
+
+        const delButton = this.add
+        .image(rect.x+440, rect.y+120, 'button_180x62')
+        .setOrigin(0, 0);
+
+
+
         const delButtonText = this.add.text(rect.x + 484, rect.y+136, "Remove", {
           color: "#ff7780",
           fontSize: "24px",
@@ -125,8 +154,8 @@ export class DeckManager extends Phaser.Scene {
           fontFamily: "Arial",
         });
           
-          group.add(button)
-          group.add(buttonText)
+          group.add(activateButton)
+          group.add(activateText)
           group.add(delButton)
           group.add(delButtonText)
 

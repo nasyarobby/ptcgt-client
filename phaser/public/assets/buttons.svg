@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg5"
-   inkscape:version="1.2.2 (1:1.2.2+202305151914+b0a8486541)"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
    sodipodi:docname="buttons.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,13 +25,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.92"
-     inkscape:cx="497.82609"
-     inkscape:cy="-152.71739"
+     inkscape:zoom="0.65053824"
+     inkscape:cx="557.99948"
+     inkscape:cy="557.23089"
      inkscape:window-width="1244"
-     inkscape:window-height="1323"
-     inkscape:window-x="1944"
-     inkscape:window-y="56"
+     inkscape:window-height="1041"
+     inkscape:window-x="1300"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -104,7 +104,10 @@
        height="17.324158"
        x="0.815615"
        y="1.0249327"
-       ry="3.075253" />
+       ry="3.075253"
+       inkscape:export-filename="button_180x62.png"
+       inkscape:export-xdpi="82.664749"
+       inkscape:export-ydpi="82.664749" />
     <rect
        style="fill:#b0b0b0;fill-opacity:1;stroke:url(#linearGradient1018);stroke-width:1.63123;stroke-linecap:round;stroke-opacity:1"
        id="rect234-7"
@@ -306,5 +309,21 @@
        rx="0.40051389"
        ry="0.30530059"
        transform="matrix(0.30021372,-0.95387196,0.78781805,0.61590805,0,0)" />
+    <path
+       id="rect2"
+       style="fill:#d12e8d;fill-opacity:1;stroke-width:0.264583"
+       d="M 78.156844,120.68481 V 34.368119 H 161.1266 V 120.68481 L 78.156844,155.5004 Z"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="magenta-up.png"
+       inkscape:export-xdpi="268.40082"
+       inkscape:export-ydpi="268.40082" />
+    <path
+       id="path2"
+       style="fill:#00b4ff;stroke-width:0.264583;fill-opacity:1"
+       d="m 187.96976,182.81565 v 86.3167 H 105 v -86.3167 l 82.96976,-34.81559 z"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="blue-down.png"
+       inkscape:export-xdpi="268.40082"
+       inkscape:export-ydpi="268.40082" />
   </g>
 </svg>

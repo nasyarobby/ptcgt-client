@@ -5,6 +5,7 @@ ws.name = localStorage.getItem("username");
 ws.token = localStorage.getItem("token");
 
 ws.sendCmd = (cmd, data) => {
+  console.log("sending cmd "+cmd, data)
   ws.send(JSON.stringify({ cmd, pid: ws.token, ...data }));
 };
 

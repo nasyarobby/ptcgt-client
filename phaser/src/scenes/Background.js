@@ -6,7 +6,9 @@ export class Background extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(796/2, 1280/2, 'playmat').setDepth(-100).preFX.addBlur(0, 0.2, 0.2, 30)
+    this.add.image(796/2, 1280/2, 'playmat')
+    .setDepth(-100)
+    .preFX.addBlur(0, 0.2, 0.2, 30)
   }
 
 }
