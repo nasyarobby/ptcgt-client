@@ -9,6 +9,7 @@ import { Background } from "./scenes/Background";
 import './index.css'
 import { DeckManager } from "./scenes/DeckManager";
 import { Lobby } from "./scenes/Lobby";
+import { JoinGame } from "./scenes/JoinGame";
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -29,7 +30,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [Boot, Preloader, Background, Lobby,  MainMenu, DeckManager, GameTable, Hand],
+  scene: [Boot, Preloader, Background, JoinGame, Lobby,  MainMenu, DeckManager, GameTable, Hand],
 };
 
 export default new Phaser.Game(config);

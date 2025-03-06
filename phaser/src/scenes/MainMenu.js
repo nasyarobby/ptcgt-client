@@ -18,14 +18,12 @@ export class MainMenu extends Phaser.Scene {
       ws.parsers.push(({
         cmd: 's_ok_get_deck_by_name',
         parser: (incomingData,cmd) => {
+          console.log(incomingData, cmd)
           const data = incomingData.deck.data;
           const card = new Card(this, data.deck[0].no,  data.cards[data.deck[0].id], WIDTH/2-100, HEIGHT/2+180, 'dm', 120)
         }
       }))
     }
-
-    
-
 
     if(ws.token) {
       const newGameButton = this.add.image((WIDTH/2)-100,HEIGHT/2-100, "button")
@@ -38,6 +36,11 @@ export class MainMenu extends Phaser.Scene {
 
       const joinGameButton = this.add.image((WIDTH/2)+100,HEIGHT/2-100, "button")
       this.add.text(joinGameButton.x-60, joinGameButton.y-18, "Join Game", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"})
+      
+      setClickAction(this, joinGameButton, joinGameButton, () => {
+        this.scene.start('JoinGame')
+      })
+
       const deckButton = this.add.image((WIDTH/2),HEIGHT/2, "button")
       const deckButtonText = this.add.text(deckButton.x-36, deckButton.y-18, "Decks", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"})
       deckButton.setInteractive({
@@ -75,7 +78,7 @@ export class MainMenu extends Phaser.Scene {
 
     ws.parsers.push({
       cmd: 's_ok_auth',
-      parser: (data,cmd) => {
+      parser: () => {
         this.scene.switch("DeckManager")
       }
     }
