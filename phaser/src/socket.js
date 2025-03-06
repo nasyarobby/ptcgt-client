@@ -6,10 +6,12 @@ import { w3cwebsocket as WSClient } from "websocket";
 const ws = new WSClient("ws://192.168.1.100:8080");
 ws.name = localStorage.getItem("username");
 ws.token = localStorage.getItem("token");
+ws.roomId = localStorage.getItem("roomId");
 
 ws.sendCmd = (cmd, data) => {
-  console.log("sending cmd "+cmd, data)
-  ws.send(JSON.stringify({ cmd, pid: ws.token, ...data }));
+  const populatedData = { cmd, pid: ws.token, roomId: ws.roomId, ...data }
+  console.log("sending cmd "+cmd, populatedData)
+  ws.send(JSON.stringify(populatedData));
 };
 
 ws.parsers = [

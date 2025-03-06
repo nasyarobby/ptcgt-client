@@ -14,7 +14,6 @@ export class MainMenu extends Phaser.Scene {
     const activeDeck = localStorage.getItem('deck')
     if(activeDeck) {
       ws.sendCmd('get_deck_by_name', {deckName: activeDeck})
-
       ws.parsers.push(({
         cmd: 's_ok_get_deck_by_name',
         parser: (incomingData,cmd) => {
@@ -30,7 +29,13 @@ export class MainMenu extends Phaser.Scene {
       const newGameButtonText = this.add.text(newGameButton.x, newGameButton.y, "New Game", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"}).setOrigin(0.5, 0.5)
 
       setClickAction(this, newGameButton, newGameButtonText, () => {
-        this.scene.start('Lobby')
+        const gameInProgress = this.registry.get('roomId');
+        if(gameInProgress) {
+          return this.scene.start('ContinueGame')
+        }
+        else {
+          return this.scene.start('Lobby')
+        }
       })
 
       const joinGameButton = this.add.image((WIDTH/2)+100,HEIGHT/2-100, "button")
@@ -96,7 +101,6 @@ export class MainMenu extends Phaser.Scene {
     container.appendChild(button)
 
     const dom = this.add.dom(WIDTH/2,HEIGHT/2, mainMenu)
-    
   }
 
 }

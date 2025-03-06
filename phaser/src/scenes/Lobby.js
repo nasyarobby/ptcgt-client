@@ -9,16 +9,6 @@ export class Lobby extends Scene {
         super('Lobby');
     }
 
-    init() {
-        const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff);
-        this.load.on('progress', (progress) => {
-            bar.width = 4 + (460 * progress);
-        });
-    }
-
-    preload() {
-    }
-
     create() {
         const deckName = localStorage.getItem("deck")
         ws.parsers.push(
@@ -66,6 +56,7 @@ export class Lobby extends Scene {
 
                     loader.once(Phaser.Loader.Events.COMPLETE, () => {
                         console.log("Loaded")
+                        this.scene.start("GameTable")
                     });
                     loader.start();
                 }
@@ -81,21 +72,18 @@ export class Lobby extends Scene {
             delay: 100,
             onComplete: (tween) => {
                 ws.sendCmd('create_game', { deckName })
-
-                this.scene.start("GameTable")
-
-                this.tweens.add({
-                    targets: magentaBdrop,
-                    y: 0,
-                    duration: 500,
-                    delay: 1000,
-                });
-                this.tweens.add({
-                    targets: blueBdrop,
-                    y: HEIGHT,
-                    duration: 500,
-                    delay: 1000,
-                });
+                // this.tweens.add({
+                //     targets: magentaBdrop,
+                //     y: 0,
+                //     duration: 500,
+                //     delay: 1000,
+                // });
+                // this.tweens.add({
+                //     targets: blueBdrop,
+                //     y: HEIGHT,
+                //     duration: 500,
+                //     delay: 1000,
+                // });
 
             }
         });
@@ -118,8 +106,6 @@ export class Lobby extends Scene {
                 cmd: 's_p2_joined',
                 parser: (data, cmd) => {
                     console.log(data, cmd)
-                    localStorage.setItem('roomId', data.roomId)
-                    localStorage.setItem('roomCode', data.code)
                     this.statusText.setText(data.name + " has joined! \nLoading Cards: 0%")
                     console.log("Getting deck info to load textures")
                 }

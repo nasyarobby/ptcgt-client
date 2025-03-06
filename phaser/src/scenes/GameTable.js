@@ -1,6 +1,6 @@
 import Phaser, { Scene } from "phaser";
 import { Card } from "../Card";
-import { HAND_HEIGHT, HEIGHT } from "../config";
+import { HAND_HEIGHT, HEIGHT, WIDTH } from "../config";
 
 export class GameTable extends Scene {
   constructor() {
@@ -8,24 +8,75 @@ export class GameTable extends Scene {
   }
 
   create() {
-    this.add.image(796/2, 1280/2, 'playmat').setDepth(-100)
-    this.playerCards = this.registry.get("playerCards")
-    this.playerCardsInPlay = this.registry.get("playerCardsInPlay").map((data, index) => {
-      const cardData = this.playerCards[data.index]
-      const card = new Card(this, index, cardData, 100+((index+1)*120), 400, "table")
-      const attachments = data.attachedCards ? data.attachedCards.map(n => {
-        const attCard = this.playerCards[n]
-        new Card(this, n, attCard, card.x, card.y-20, "table-attachment")
-        .setDepth(card.depth-0.1)
-      }) : []
+    const playmat = this.add.image(WIDTH/2, HEIGHT/2, 'playmat').setOrigin(0, 0)
+
+    const cards = this.registry.get("cards")
+    /**
+     * @type {{id: string, name: string, deck: {cards: any[], deck: any[]}}[]}
+     */
+    const players = this.registry.get("players")
+
+    players[0].deck.deck.forEach((card, index) => {
+      const cardData = cards.find(c=>c.id === '0-'+card.id)
+      const isRevealed = card.v === 'Y' ? true: false
+      console.log(cardData, isRevealed, 0+index*10)
+      const cardObj = new Card(this, cardData.id, cardData, playmat.x+index*10+28,playmat.y+60,'table', 54)
+      cardObj.setInteractive({
+        useHandCursor: true,
+      })
+      .on("pointerdown", () => {
+        this.objectClicked = cardObj
+
+        if(this.selectedCard && this.selectedCard !== cardObj) this.selectedCard.setHighlight(false)
+        this.selectedCard = cardObj
+      })
+      .on("pointerup", () => {
+        this.objectClicked = null
+        if(this.selectedCard === cardObj) {
+          console.log("same card");
+          cardObj.setHighlight(true)
+        }
+        else {
+          this.selectedCard = null;
+        }
+      })
     })
 
-    this.cameras.main.zoomTo(1.0, 1000, Phaser.Math.Easing.Bounce.Out)
+    this.add.line(0,0,100,100,200,200,0xfff)
+    
+    // move around
+    const drag = (pointer) => {
+      console.log("pointer moved")
+      if(!this.objectClicked) {
+        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+      }
+      else {
+        this.objectClicked.x += (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+        this.objectClicked.y += (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+      }
+    }
+    this.input.on("pointerdown", (pointer) => {
+      console.log("set listener", pointer.x, pointer.y)
+      this.input.on('pointermove', drag)
+    })
 
+    this.input.on('pointerup', () => {
+      if(this.objectClicked) {
+        this.objectClicked = null
+      }
+      else {
 
-      const ZOOM_STEP = 1
+      }
+      console.log("removing")
+      this.input.removeListener('pointermove', drag)
+    })
+
+    this.cameras.main.scrollX = playmat.width/2
+    this.cameras.main.scrollY = playmat.height/2
+    this.cameras.main.zoomTo(0.65, 1000, Phaser.Math.Easing.Bounce.Out)
+      const ZOOM_STEP = 0.2
       const ZOOM_STEP_MOBILE =  0.05
-
 
     this.input.on("wheel", (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
       var keyObject = this.input.keyboard.addKey("CTRL"); // Get key object
@@ -38,7 +89,6 @@ export class GameTable extends Scene {
         this.cameras.main.rotation += Math.PI / 10
       }
         return;
-
       }
 
       if (deltaY > 0) {
@@ -53,66 +103,6 @@ export class GameTable extends Scene {
 
       //this.camera.centerOn(pointer.x, pointer.y);
     });
-
-    this.input.on('pointerup', () => {
-      this.registry.set("playerSelectedCards", [])
-    })
-
-    this.input.on("pointermove", (pointer) => {
-
-      if(pointer.downY > HEIGHT-HAND_HEIGHT) {
-        return;
-      }
-
-      var amount = this.input.manager.pointersTotal;
-
-      /**
-       * @type {Card[]}
-       */
-      const cards = this.registry.get('playerSelectedCards')
-
-      if(cards && cards.length) {
-        // cards[0].x += (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-        // cards[0].y += (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-        return;
-      }
-      
-      if (amount > 1 && this.input.pointer1.isDown && !this.input.pointer2.isDown ) {
-        // this.cameras.main.worldView.x += pointer.position.x - pointer.prevPosition.x;
-        // this.cameras.main.worldView.y += pointer.position.y - pointer.prevPosition.y;
-
-        // this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-        // this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-
-        return
-      }
-
-
-      if (amount > 1 && this.input.pointer1.isDown && this.input.pointer2.isDown ) {
-        const {pointer1, pointer2} = this.input
-        if(pointer1.position.distance(pointer2.position) < pointer1.prevPosition.distance(pointer2.prevPosition)) {
-        if (this.cameras.main.zoom - ZOOM_STEP_MOBILE > 0.8) {
-          this.cameras.main.zoom -= ZOOM_STEP_MOBILE;
-        }
-          
-        }
-
-        if(pointer1.position.distance(pointer2.position) > pointer1.prevPosition.distance(pointer2.prevPosition)) {
-          if (this.cameras.main.zoom + ZOOM_STEP_MOBILE < 7) {
-          this.cameras.main.zoom += ZOOM_STEP_MOBILE;
-          }
-        }
-
-        return
-      }
-
-      // if ((pointer.isDown && pointer.button === 0)) {
-      //   this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-      //   this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-      // }
-    });
-
-
     
   }
 
