@@ -12,9 +12,6 @@ export class MainMenu extends Phaser.Scene {
   create() {
     this.scene.launch("Background")
     const activeDeck = localStorage.getItem('deck')
-    const magenta = this.add.image(0,0,'magenta_up').setOrigin(0,1)
-    const blueBdrop = this.add.image(0,HEIGHT,'blue_down').setOrigin(0,0)
-
     if(activeDeck) {
       ws.sendCmd('get_deck_by_name', {deckName: activeDeck})
 
@@ -22,7 +19,6 @@ export class MainMenu extends Phaser.Scene {
         cmd: 's_ok_get_deck_by_name',
         parser: (incomingData,cmd) => {
           const data = incomingData.deck.data;
-          console.log(data)
           const card = new Card(this, data.deck[0].no,  data.cards[data.deck[0].id], WIDTH/2-100, HEIGHT/2+180, 'dm', 120)
         }
       }))
@@ -37,23 +33,7 @@ export class MainMenu extends Phaser.Scene {
 
       setClickAction(this, newGameButton, newGameButtonText, () => {
         ws.sendCmd('create_game', {deckName: activeDeck})
-        this.tweens.add({
-          targets: magenta,
-          y: HEIGHT/2+200,
-          duration: 250,
-          onLoop: (tween) => {
-              console.log('Tween Loop: ' + tween.loopCounter)
-          }
-      });
-    
-      this.tweens.add({
-        targets: blueBdrop,
-        y: HEIGHT/2-200,
-        duration: 250,
-        onLoop: (tween) => {
-            console.log('Tween Loop: ' + tween.loopCounter)
-          }
-        });
+        this.scene.start('Lobby')
       })
 
       const joinGameButton = this.add.image((WIDTH/2)+100,HEIGHT/2-100, "button")
@@ -93,12 +73,13 @@ export class MainMenu extends Phaser.Scene {
     container.style = 'display: flex; flex-direction: column;'
     container.className = 'deck-manager-container'
 
-    ws.parsers.push(({
+    ws.parsers.push({
       cmd: 's_ok_auth',
       parser: (data,cmd) => {
         this.scene.switch("DeckManager")
       }
-    }))
+    }
+    )
 
     const input = document.createElement('input')
     input.style = 'font-size: 32px;text-align:center'

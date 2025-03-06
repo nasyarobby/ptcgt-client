@@ -1,6 +1,6 @@
 import { w3cwebsocket as WSClient } from "websocket";
 
-const ws = new WSClient("ws://10.254.169.169:8080");
+const ws = new WSClient("ws://192.168.1.100:8080");
 ws.name = localStorage.getItem("username");
 ws.token = localStorage.getItem("token");
 
