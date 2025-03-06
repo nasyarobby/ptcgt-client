@@ -1,5 +1,8 @@
 import { w3cwebsocket as WSClient } from "websocket";
 
+/**
+ * @type {WSClient & {sendCmd: (cmd: string, data: object) => void}}
+ */
 const ws = new WSClient("ws://192.168.1.100:8080");
 ws.name = localStorage.getItem("username");
 ws.token = localStorage.getItem("token");

@@ -44,6 +44,7 @@ export class JoinGame extends Scene
             overlayBackdrop.appendChild(container);
         
             const roomCodeInput = document.createElement("input");
+            roomCodeInput.autofocus = true
             roomCodeInput.onkeydown = (e) => {
                 if(roomCodeInput.value.length > 5) roomCodeInput.value = roomCodeInput.value.slice(0,5);
             }
@@ -80,7 +81,8 @@ export class JoinGame extends Scene
 
             setClickAction(this, this.okButton, this.textOkButton, () => {
                 if(this.code && this.code.length === 6) {
-                    console.log("ok")
+                    const deckName = localStorage.getItem('deck')
+                    ws.sendCmd('join_game', {code: this.code, deckName})
                     return;
                 }
                 dom.setVisible(true)

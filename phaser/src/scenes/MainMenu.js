@@ -30,7 +30,6 @@ export class MainMenu extends Phaser.Scene {
       const newGameButtonText = this.add.text(newGameButton.x, newGameButton.y, "New Game", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"}).setOrigin(0.5, 0.5)
 
       setClickAction(this, newGameButton, newGameButtonText, () => {
-        ws.sendCmd('create_game', {deckName: activeDeck})
         this.scene.start('Lobby')
       })
 
