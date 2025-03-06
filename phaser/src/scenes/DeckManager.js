@@ -23,6 +23,7 @@ export class DeckManager extends Phaser.Scene {
     const backToMenuButton = this.add.image(300,51, "button_180x62")
     const backToMenuButtonText = this.add.text(backToMenuButton.x-26, backToMenuButton.y-12, "Back", {color: "black", fontSize: "24px", fontFamily: "Arial"})
     setClickAction(this, backToMenuButton, backToMenuButtonText, () => {
+      this.registry.set('menu', 'mainmenu')
       this.scene.switch('MainMenu')
     })
 

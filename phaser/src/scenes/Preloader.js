@@ -40,8 +40,11 @@ export class Preloader extends Scene
         this.load.image('activate_deck_button_2', './activate_deck_button_2.png');
         this.load.image('deck', './deck.png');
         this.load.image('button_180x62', './button_180x62.png');
+        this.load.image('button', './button_180x67.png');
         this.load.image('magenta_up', './magenta-up.png');
         this.load.image('blue_down', './blue-down.png');
+        this.load.image('charizard_outline', './charizard_outline.png');
+        this.load.image('basic_card_outline', './basic_card_outline.png');
     }
 
     create ()

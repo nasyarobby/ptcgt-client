@@ -32,8 +32,8 @@ export class MainMenu extends Phaser.Scene {
 
 
     if(ws.token) {
-      const newGameButton = this.add.image((WIDTH/2)-100,HEIGHT/2-100, "button_180x62")
-      const newGameButtonText = this.add.text(newGameButton.x-60, newGameButton.y-12, "New Game", {color: "black", fontSize: "24px", fontFamily: "Arial"})
+      const newGameButton = this.add.image((WIDTH/2)-100,HEIGHT/2-100, "button")
+      const newGameButtonText = this.add.text(newGameButton.x, newGameButton.y, "New Game", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"}).setOrigin(0.5, 0.5)
 
       setClickAction(this, newGameButton, newGameButtonText, () => {
         ws.sendCmd('create_game', {deckName: activeDeck})
@@ -56,10 +56,10 @@ export class MainMenu extends Phaser.Scene {
         });
       })
 
-      const joinGameButton = this.add.image((WIDTH/2)+100,HEIGHT/2-100, "button_180x62")
-      this.add.text(joinGameButton.x-60, joinGameButton.y-12, "Join Game", {color: "black", fontSize: "24px", fontFamily: "Arial"})
-      const deckButton = this.add.image((WIDTH/2),HEIGHT/2, "button_180x62")
-      const deckButtonText = this.add.text(deckButton.x-40, deckButton.y-12, "Decks", {color: "black", fontSize: "24px", fontFamily: "Arial"})
+      const joinGameButton = this.add.image((WIDTH/2)+100,HEIGHT/2-100, "button")
+      this.add.text(joinGameButton.x-60, joinGameButton.y-18, "Join Game", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"})
+      const deckButton = this.add.image((WIDTH/2),HEIGHT/2, "button")
+      const deckButtonText = this.add.text(deckButton.x-36, deckButton.y-18, "Decks", {color: "white", fontSize: "24px", fontFamily: "leaguespartan"})
       deckButton.setInteractive({
         useHandCursor: true,
       }).on('pointerdown', () => {
@@ -69,6 +69,7 @@ export class MainMenu extends Phaser.Scene {
         deckButtonText.y+=4
         deckButtonText.x+=4
       }).on("pointerup", () => {
+        this.registry.set('menu', 'dm')
         this.scene.switch('DeckManager')
       })
 
@@ -102,7 +103,7 @@ export class MainMenu extends Phaser.Scene {
     const input = document.createElement('input')
     input.style = 'font-size: 32px;text-align:center'
     const button = document.createElement('button')
-    button.style = 'font-size: 32px;'
+    button.style = 'font-size: 32px;font-family: leaguespartan'
     button.innerText = 'Login'
     button.onclick = () => {
         ws.sendCmd('auth', {name: input.value})
