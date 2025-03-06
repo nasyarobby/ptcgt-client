@@ -46,15 +46,15 @@ export class GameTable extends Scene {
     
     // move around
     const drag = (pointer) => {
-      console.log("pointer moved")
-      if(!this.objectClicked) {
-        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-      }
-      else {
+      console.log("dragging")
+      if(this.selectedCard && this.objectClicked === this.selectedCard && this.selectedCard.isHighlighted) {
         this.objectClicked.x += (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
         this.objectClicked.y += (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+        this.objectClicked.update();
+        return;
       }
+      this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+      this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
     }
     this.input.on("pointerdown", (pointer) => {
       console.log("set listener", pointer.x, pointer.y)
@@ -64,9 +64,6 @@ export class GameTable extends Scene {
     this.input.on('pointerup', () => {
       if(this.objectClicked) {
         this.objectClicked = null
-      }
-      else {
-
       }
       console.log("removing")
       this.input.removeListener('pointermove', drag)

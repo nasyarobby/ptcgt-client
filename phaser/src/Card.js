@@ -51,7 +51,6 @@ export class Card extends Phaser.GameObjects.Sprite {
           this.setScale(this.defaultScale)
           this.setDepth(1)
           this.highlighRect.setDepth(-200)
-
         }
       }
     });
@@ -82,6 +81,7 @@ export class Card extends Phaser.GameObjects.Sprite {
    */
   setHighlight(state) {
     this.data.set("isHighlighted", state)
+    this.isHighlighted = state
   }
 
   update() {
