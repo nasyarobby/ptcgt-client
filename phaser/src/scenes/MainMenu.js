@@ -60,7 +60,6 @@ export class MainMenu extends Phaser.Scene {
         this.scene.switch('DeckManager')
       })
 
-
       this.input.on('pointerup', () => {
         if(this.clicked) {
           this.clickedText.x = this.originalTextPosition.x
